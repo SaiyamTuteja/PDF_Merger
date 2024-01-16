@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PDF Merger</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f0f0f0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    header {
+      background-color: #d9534f;
+      color: #fff;
+      padding: 10px;
+      text-align: center;
+      width: 100%;
+    }
+
+    #main-content {
+      padding: 20px;
+      text-align: center;
+    }
+
+    #upload-container {
+      margin: 50px auto;
+    }
+
+    #upload-btn {
+      background-color: #d9534f;
+      color: #fff;
+      padding: 15px 30px;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+      display: block;
+      margin: 20px auto;
+    }
+
+    #upload-btn:hover {
+      background-color: #c9302c;
+    }
+
+    #output-file {
+      margin-top: 10px;
+      padding: 10px;
+      font-size: 14px;
+      width: 80%;
+      box-sizing: border-box;
+    }
+
+    #download-btn {
+      margin-top: 20px;
+      padding: 15px 30px;
+      font-size: 16px;
+      background-color: #d9534f;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    #download-btn:hover {
+      background-color: #c9302c;
+    }
+
+    footer {
+      margin-top: 20px;
+      color: #d9534f;
+    }
+
+    .container {
+      height: 300px;
+      width: 600px;
+      border-radius: 10px;
+      box-shadow: 4px 4px 30px rgba(0, 0, 0, .2);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px;
+      gap: 5px;
+      background-color: rgba(0, 110, 255, 0.041);
+    }
+
+    .header {
+      flex: 1;
+      width: 200%;
+      border: 2px dashed rgb(219, 21, 21);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+
+    .header svg {
+      height: 100px;
+    }
+
+    .header p {
+      text-align: center;
+      color: black;
+    }
+
+    .footer {
+      background-color: rgba(240, 82, 82, 0.075);
+      width: 200%;
+      height: 40px;
+      padding: 8px;
+      border-radius: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      color: black;
+      border: none;
+    }
+
+    .footer svg {
+      height: 130%;
+      fill: rgb(230, 27, 27);
+      background-color: rgba(221, 70, 70, 0.103);
+      border-radius: 50%;
+      padding: 2px;
+      cursor: pointer;
+      box-shadow: 0 2px 30px rgba(0, 0, 0, 0.205);
+    }
+
+    .footer p {
+      flex: 1;
+      text-align: center;
+    }
+
+    #file {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h2>Master PDF Merger</h2>
+  </header>
+
+  <div id="main-content">
+    <form action="/merge_pdfs" method="post" enctype="multipart/form-data">
+      <div id="upload-container">
+        <!-- <label for="pdf-files">Select PDF files:</label> -->
+        <!-- <input type="file" id="pdf-files" name="pdf_files[]" multiple accept=".pdf" /> -->
+        <!-- <p>or drop PDF files here</p> -->
+        <div class="container">
+          <div class="header">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+              <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+              <g id="SVGRepo_iconCarrier">
+                <path
+                  d="M7 10V9C7 6.23858 9.23858 4 12 4C14.7614 4 17 6.23858 17 9V10C19.2091 10 21 11.7909 21 14C21 15.4806 20.1956 16.8084 19 17.5M7 10C4.79086 10 3 11.7909 3 14C3 15.4806 3.8044 16.8084 5 17.5M7 10C7.43285 10 7.84965 10.0688 8.24006 10.1959M12 12V21M12 12L15 15M12 12L9 15"
+                  stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+              </g>
+            </svg>
+            <p>Browse File to Merge!</p>
+            
+          </div>
+          <label for="file" class="footer">
+            <svg fill="#000000" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+              <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+              <g id="SVGRepo_iconCarrier">
+                <path d="M15.331 6H8.5v20h15V14.154h-8.169z"></path>
+                <path d="M18.153 6h-.009v5.342H23.5v-.002z"></path>
+              </g>
+            </svg>
+            <p>Not selected file</p>
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+              <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+              <g id="SVGRepo_iconCarrier">
+                <path
+                  d="M5.16565 10.1534C5.07629 8.99181 5.99473 8 7.15975 8H16.8402C18.0053 8 18.9237 8.9918 18.8344 10.1534L18.142 19.1534C18.0619 20.1954 17.193 21 16.1479 21H7.85206C6.80699 21 5.93811 20.1954 5.85795 19.1534L5.16565 10.1534Z"
+                  stroke="#000000" stroke-width="2"></path>
+                <path d="M19.5 5H4.5" stroke="#000000" stroke-width="2" stroke-linecap="round"></path>
+                <path d="M10 3C10 2.44772 10.4477 2 11 2H13C13.5523 2 14 2.44772 14 3V5H10V3Z" stroke="#000000"
+                  stroke-width="2"></path>
+              </g>
+            </svg>
+          </label>
+          <input id="file" type="file" name="pdf_files[]" multiple accept=".pdf">
+        </div>
+        
+        <!-- <button id="upload-btn" type="submit">Select PDF to Merge</button> -->
+        <!-- <input type="file" id="pdf-files" name="pdf_files[]" multiple accept=".pdf" /> -->
+      </div>
+
+      <label for="output-file">Enter File Name:</label>
+      <input type="text" id="output-file" name="output_file" placeholder="merged.pdf" />
+      <button id="download-btn" onclick="downloadMergedFile()">Download Merged PDF</button>
+    </form>
+  </div>
+
+  <footer>
+    Made with ❤ Saiyam
+  </footer>
+
+  <script>
+    async function downloadMergedFile() {
+      var outputFileName = document.getElementById('output-file').value || 'merged.pdf';
+
+      // Make an asynchronous request to check if the file exists
+      try {
+        const response = await fetch('/check_file/' + outputFileName);
+
+        if (response.ok) {
+          // If the file exists, initiate the download
+          window.location.href = '/download/' + outputFileName;
+        } else {
+          alert('File does not exist on the server.');
+        }
+      } catch (error) {
+        console.error('Error checking file existence:', error);
+        alert('An error occurred while checking file existence.');
+      }
+    }
+  </script>
+
+</body>
+
+</html>
